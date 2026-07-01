@@ -106,6 +106,7 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
 .active-timer{font-family:'Courier New',monospace;font-size:1.1rem;color:var(--lime);font-variant-numeric:tabular-nums}
 .end-btn{background:var(--lime);color:#0C1219;border:none;padding:.5rem .9rem;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;border-radius:3px;cursor:pointer;flex-shrink:0}
 .end-btn:active{opacity:.8}
+.end-btn.abandon{background:transparent;border:1px solid var(--bdr2);color:var(--muted);font-size:.9rem;padding:.4rem .6rem;letter-spacing:0}
 
 .ex-item{background:var(--s1);border:1px solid var(--bdr);border-radius:4px;margin-bottom:.6rem;overflow:hidden}
 .ex-item-hd{padding:.7rem .9rem .4rem}
@@ -238,8 +239,9 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
             <div class="active-nm" id="active-sess-name">—</div>
             <div style="font-size:.7rem;color:var(--muted);margin-top:.1rem" id="active-week-info"></div>
           </div>
-          <div style="display:flex;align-items:center;gap:.75rem">
+          <div style="display:flex;align-items:center;gap:.5rem">
             <div class="active-timer" id="timer">00:00</div>
+            <button class="end-btn abandon" onclick="abandonSession()" title="Avbryt økt uten å lagre">✕</button>
             <button class="end-btn" onclick="endSession()">Fullfør</button>
           </div>
         </div>
@@ -654,6 +656,22 @@ function removeSet(exIndex, setIndex) {
   activeSession.exercises[exIndex].sets.splice(setIndex, 1);
   localStorage.setItem('active_session', JSON.stringify(activeSession));
   renderExerciseList();
+}
+
+function abandonSession() {
+  if (!activeSession) return;
+  const hasSets = activeSession.exercises.some(e => e.sets.length > 0);
+  const msg = hasSets
+    ? 'Avbryt økt? Registrerte sett vil ikke bli lagret.'
+    : 'Avbryt og velg en annen økt?';
+  if (!confirm(msg)) return;
+  stopTimer();
+  hideRestTimer();
+  localStorage.removeItem('active_session');
+  activeSession = null;
+  document.getElementById('active-session').classList.remove('show');
+  document.getElementById('session-selector').style.display = '';
+  document.getElementById('active-badge').classList.remove('show');
 }
 
 function endSession() {
