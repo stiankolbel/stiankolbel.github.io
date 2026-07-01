@@ -104,6 +104,11 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
 .ex-item-name{font-weight:600;font-size:.88rem;flex:1;line-height:1.2}
 .ex-target{font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;flex-shrink:0}
 .ex-target strong{color:var(--lime)}
+.ex-detail-row{display:flex;flex-wrap:wrap;gap:.35rem;padding:.3rem .9rem .55rem;align-items:center}
+.ex-detail-chip{font-size:.68rem;background:var(--s2);border:1px solid var(--bdr2);border-radius:3px;padding:.18rem .5rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ex-detail-chip.lime{color:var(--lime);border-color:rgba(168,255,0,.3);background:var(--lime-bg)}
+.ex-detail-chip.teal{color:var(--teal);border-color:rgba(40,212,192,.3);background:var(--teal-bg)}
+.ex-detail-chip.pur{color:var(--pur);border-color:rgba(187,128,255,.3);background:var(--pur-bg)}
 .logged-sets{padding:0 .9rem;display:flex;flex-wrap:wrap;gap:.4rem;padding-bottom:.5rem}
 .logged-sets:empty{display:none}
 .set-chip{display:inline-flex;align-items:center;gap:.3rem;background:var(--s2);border:1px solid var(--bdr2);border-radius:3px;padding:.2rem .5rem;font-size:.75rem;font-variant-numeric:tabular-nums;color:var(--txt)}
@@ -689,6 +694,33 @@ function showActiveSession() {
   renderExerciseList();
 }
 
+function getSetsTarget(sessEx, target) {
+  const s = sessEx.sets || '';
+  const t = target || '—';
+  if (t === '—' || t === 'varierer') return s || '—';
+  if (t.includes('×')) return t;
+  if (t.includes('min') || t.includes('sek') || t === 'runder' || t === 'serier') {
+    return s ? `${s} × ${t}` : t;
+  }
+  return s && s !== '—' ? `${s} sett × ${t} reps` : `${t} reps`;
+}
+
+function getRestInfo(sessEx) {
+  const rest = sessEx.rest || '—';
+  if (rest !== '—') {
+    return {
+      text: rest === 'Sirkel' ? 'Sirkel → neste' : rest === 'Kort' ? '~20 sek' : rest,
+      recommended: false
+    };
+  }
+  const tag = sessEx.tag || '';
+  if (tag === 'oppvarming' || tag === 'nedtrapping' || tag === 'intervall') return { text: null };
+  if (tag === 'spenst') return { text: 'Hvil med sett', recommended: true };
+  if (tag === 'core') return { text: 'Sirkel → neste', recommended: true };
+  if (tag.startsWith('supersett')) return { text: 'Hvil med supersett', recommended: true };
+  return { text: '60–90 sek', recommended: true };
+}
+
 function renderExerciseList() {
   const list = document.getElementById('exercise-list');
   const sess = SESSIONS[activeSession.sessionId];
@@ -696,16 +728,30 @@ function renderExerciseList() {
   list.innerHTML = activeSession.exercises.map((ex, i) => {
     const sessEx = sess.exercises[i];
     const tagHtml = sessEx.tag === 'spenst' ? '<span class="tag tag-sp">spenst</span>' :
+                    sessEx.tag === 'core' ? '<span class="tag" style="background:var(--ora-bg);color:var(--ora)">core</span>' :
                     sessEx.tag && sessEx.tag.startsWith('supersett') ? `<span class="tag tag-ss">${sessEx.tag.replace('-', ' ').toUpperCase()}</span>` : '';
     const setsHtml = ex.sets.map((s, si) =>
       `<span class="set-chip">${s.weight ? s.weight + 'kg × ' : ''}${s.reps}${s.unit || ''} <button onclick="removeSet(${i},${si})">×</button></span>`
     ).join('');
     const isTime = ex.target && (ex.target.includes('sek') || ex.target.includes('min') || ex.target.includes('runder'));
 
+    const setsTarget = getSetsTarget(sessEx, ex.target);
+    const restInfo = getRestInfo(sessEx);
+    const restChip = restInfo.text
+      ? `<span class="ex-detail-chip ${restInfo.recommended ? 'pur' : 'teal'}">⏱ ${restInfo.text}${restInfo.recommended ? ' (PT)' : ''}</span>`
+      : '';
+    const rirChip = sessEx.rir
+      ? `<span class="ex-detail-chip">RIR ${sessEx.rir}</span>`
+      : '';
+
     return `<div class="ex-item">
       <div class="ex-item-hd">
         <div class="ex-item-name">${ex.name}${tagHtml}</div>
-        <div class="ex-target">Mål: <strong>${ex.target}</strong></div>
+      </div>
+      <div class="ex-detail-row">
+        <span class="ex-detail-chip lime">${setsTarget}</span>
+        ${rirChip}
+        ${restChip}
       </div>
       <div class="logged-sets">${setsHtml}</div>
       <div class="add-set-row">
