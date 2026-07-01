@@ -39,6 +39,15 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
 .panel{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1rem 1rem calc(var(--nav-h) + var(--safe-b) + 1rem);display:none}
 .panel.active{display:block}
 
+/* ── REST TIMER ── */
+#rest-timer{flex-shrink:0;background:var(--s2);border-top:2px solid var(--lime);padding:.55rem 1rem;display:none;align-items:center;gap:.75rem;position:relative;overflow:hidden}
+#rest-timer.show{display:flex}
+#rest-timer-bg{position:absolute;top:0;left:0;bottom:0;width:0%;background:var(--lime-bg);pointer-events:none}
+#rest-timer-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--lime);font-weight:700;position:relative;z-index:1;flex-shrink:0}
+#rest-timer-count{font-family:'Courier New',monospace;font-size:1.5rem;color:var(--lime);font-variant-numeric:tabular-nums;flex:1;position:relative;z-index:1;line-height:1}
+#rest-timer-skip{background:none;border:1px solid var(--bdr2);color:var(--muted);padding:.3rem .65rem;font-size:.65rem;border-radius:3px;cursor:pointer;position:relative;z-index:1;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0}
+#rest-timer-skip:active{background:var(--s3)}
+
 #bottom-nav{flex-shrink:0;height:calc(var(--nav-h) + var(--safe-b));padding-bottom:var(--safe-b);background:var(--s1);border-top:1px solid var(--bdr);display:flex;z-index:50}
 .nav-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;background:none;border:none;color:var(--muted);cursor:pointer;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.5rem 0;position:relative;transition:color .15s}
 .nav-tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -55,7 +64,6 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
 .callout{background:var(--s1);border-left:3px solid var(--lime);padding:.7rem .9rem;font-size:.82rem;margin-bottom:1rem;border-radius:0 3px 3px 0}
 .callout strong{color:var(--lime)}
 .callout.teal{border-left-color:var(--teal)}.callout.teal strong{color:var(--teal)}
-.callout.ora{border-left-color:var(--ora)}.callout.ora strong{color:var(--ora)}
 
 /* ── WEEKLY PLAN ── */
 .week-grid{display:grid;grid-template-columns:52px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;gap:1px;background:var(--bdr);border:1px solid var(--bdr);border-radius:4px;overflow:hidden;margin-bottom:1rem;font-size:.72rem}
@@ -80,7 +88,7 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
 .sess-card:active{background:var(--s2)}
 .sess-card.teal{border-left-color:var(--teal)}
 .sess-card.ora{border-left-color:var(--ora)}
-.sc-no{font-family:Impact,Arial,sans-serif;font-size:2.5rem;color:var(--lime);opacity:.15;position:absolute;top:-.25rem;right:.3rem;line-height:1;font-variant-numeric:tabular-nums;pointer-events:none}
+.sc-no{font-family:Impact,Arial,sans-serif;font-size:2.5rem;color:var(--lime);opacity:.15;position:absolute;top:-.25rem;right:.3rem;line-height:1;pointer-events:none}
 .sess-card.teal .sc-no{color:var(--teal)}
 .sess-card.ora .sc-no{color:var(--ora)}
 .sc-name{font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.2rem;line-height:1.2}
@@ -100,15 +108,15 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
 .end-btn:active{opacity:.8}
 
 .ex-item{background:var(--s1);border:1px solid var(--bdr);border-radius:4px;margin-bottom:.6rem;overflow:hidden}
-.ex-item-hd{padding:.7rem .9rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem}
-.ex-item-name{font-weight:600;font-size:.88rem;flex:1;line-height:1.2}
-.ex-target{font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right;flex-shrink:0}
-.ex-target strong{color:var(--lime)}
+.ex-item-hd{padding:.7rem .9rem .4rem}
+.ex-item-name{font-weight:600;font-size:.88rem;line-height:1.2}
 .ex-detail-row{display:flex;flex-wrap:wrap;gap:.35rem;padding:.3rem .9rem .55rem;align-items:center}
 .ex-detail-chip{font-size:.68rem;background:var(--s2);border:1px solid var(--bdr2);border-radius:3px;padding:.18rem .5rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ex-detail-chip.lime{color:var(--lime);border-color:rgba(168,255,0,.3);background:var(--lime-bg)}
 .ex-detail-chip.teal{color:var(--teal);border-color:rgba(40,212,192,.3);background:var(--teal-bg)}
 .ex-detail-chip.pur{color:var(--pur);border-color:rgba(187,128,255,.3);background:var(--pur-bg)}
+.prev-row{padding:.3rem .9rem .45rem;font-size:.72rem;color:var(--muted2);background:var(--bg);border-top:1px solid var(--bdr)}
+.prev-row span{color:var(--muted)}
 .logged-sets{padding:0 .9rem;display:flex;flex-wrap:wrap;gap:.4rem;padding-bottom:.5rem}
 .logged-sets:empty{display:none}
 .set-chip{display:inline-flex;align-items:center;gap:.3rem;background:var(--s2);border:1px solid var(--bdr2);border-radius:3px;padding:.2rem .5rem;font-size:.75rem;font-variant-numeric:tabular-nums;color:var(--txt)}
@@ -138,49 +146,12 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
 .hist-ex-name{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.3rem}
 .hist-sets-list{display:flex;flex-wrap:wrap;gap:.35rem}
 .h-chip{font-size:.75rem;background:var(--s2);border:1px solid var(--bdr2);border-radius:3px;padding:.18rem .5rem;font-variant-numeric:tabular-nums}
-.hist-notes{margin-top:.75rem;font-size:.8rem;color:var(--muted);font-style:italic;border-top:1px solid var(--bdr);padding-top:.6rem}
-.hist-ai-analysis{margin-top:.75rem;background:var(--lime-bg);border-left:2px solid var(--lime);padding:.6rem .75rem;font-size:.8rem;border-radius:0 3px 3px 0}
-.hist-ai-analysis .ai-label{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:.25rem}
 
-/* ── PT CHAT ── */
-#panel-pt{padding-bottom:0;flex-direction:column}
-#panel-pt.active{display:flex}
-#chat-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:1rem 1rem 0}
-#chat-input-bar{flex-shrink:0;background:var(--s1);border-top:1px solid var(--bdr);padding:.75rem 1rem;padding-bottom:calc(.75rem + var(--safe-b));display:flex;gap:.6rem;align-items:flex-end}
-#chat-input{flex:1;background:var(--s2);border:1px solid var(--bdr2);border-radius:18px;color:var(--txt);font-size:16px;padding:.6rem 1rem;resize:none;overflow:hidden;min-height:38px;max-height:120px;line-height:1.4;font-family:inherit}
-#chat-input:focus{outline:none;border-color:var(--bdr2)}
-#send-btn{background:var(--lime);color:#0C1219;border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:opacity .15s}
-#send-btn:disabled{opacity:.4;cursor:default}
-#send-btn svg{width:16px;height:16px;fill:#0C1219}
-.quick-chips{display:flex;gap:.5rem;overflow-x:auto;scrollbar-width:none;padding:.75rem 1rem .5rem;flex-shrink:0}
-.quick-chips::-webkit-scrollbar{display:none}
-.qchip{flex-shrink:0;background:var(--s2);border:1px solid var(--bdr2);border-radius:14px;padding:.3rem .75rem;font-size:.75rem;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .15s}
-.qchip:active,.qchip:hover{background:var(--s3);color:var(--txt);border-color:var(--bdr2)}
-
-.msg{margin-bottom:1rem;display:flex;flex-direction:column;max-width:85%}
-.msg.user{align-self:flex-end;align-items:flex-end}
-.msg.ai{align-self:flex-start;align-items:flex-start}
-.msg-bubble{padding:.7rem .9rem;border-radius:16px;font-size:.88rem;line-height:1.45;white-space:pre-wrap}
-.msg.user .msg-bubble{background:var(--s3);border-radius:16px 16px 4px 16px;color:var(--txt)}
-.msg.ai .msg-bubble{background:var(--s2);border-radius:16px 16px 16px 4px;color:var(--txt)}
-.msg-time{font-size:.62rem;color:var(--muted);margin-top:.25rem}
-.typing-dot{display:inline-block;width:7px;height:7px;background:var(--muted);border-radius:50%;margin:0 2px;animation:blink 1.2s infinite}
-.typing-dot:nth-child(2){animation-delay:.2s}
-.typing-dot:nth-child(3){animation-delay:.4s}
-@keyframes blink{0%,80%,100%{opacity:.2}40%{opacity:1}}
-
-/* ── API KEY MODAL ── */
-#apikey-modal{position:fixed;inset:0;background:rgba(12,18,25,.95);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;display:none}
-#apikey-modal.show{display:flex}
-.modal-box{background:var(--s1);border:1px solid var(--bdr2);border-radius:8px;padding:1.5rem;max-width:400px;width:100%}
-.modal-ttl{font-family:Impact,Arial,sans-serif;font-size:1.4rem;text-transform:uppercase;color:var(--txt);margin-bottom:.25rem}
-.modal-sub{font-size:.8rem;color:var(--muted);margin-bottom:1.25rem;line-height:1.5}
-.modal-sub a{color:var(--teal);text-decoration:none}
-.modal-input{width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:4px;color:var(--txt);font-size:14px;padding:.65rem .9rem;margin-bottom:.75rem;-webkit-appearance:none}
-.modal-input:focus{outline:none;border-color:var(--lime)}
-.modal-btn{width:100%;background:var(--lime);color:#0C1219;border:none;border-radius:4px;padding:.75rem;font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;cursor:pointer}
-.modal-btn:active{opacity:.8}
-.modal-skip{width:100%;background:none;border:none;color:var(--muted);font-size:.78rem;padding:.5rem;cursor:pointer;margin-top:.4rem}
+/* ── PROGRESS GRAPH ── */
+.prog-select{width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:4px;color:var(--txt);font-size:.85rem;padding:.5rem .75rem;margin-bottom:.75rem;-webkit-appearance:none;appearance:none;cursor:pointer}
+.prog-select:focus{outline:none;border-color:var(--lime)}
+.prog-chart-wrap{background:var(--s1);border:1px solid var(--bdr);border-radius:4px;padding:.75rem;margin-bottom:.5rem}
+.prog-empty{text-align:center;padding:1.5rem 1rem;color:var(--muted);font-size:.82rem}
 
 /* ── SETTINGS MODAL ── */
 #settings-modal{position:fixed;inset:0;background:rgba(12,18,25,.95);z-index:200;display:none;flex-direction:column;padding:1rem}
@@ -198,21 +169,16 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
 .tag{display:inline-block;font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;padding:.1rem .3rem;border-radius:2px;margin-left:.35rem;vertical-align:middle}
 .tag-sp{background:var(--teal-bg);color:var(--teal)}
 .tag-ss{background:var(--pur-bg);color:var(--pur)}
-.divider{height:1px;background:var(--bdr);margin:1rem 0}
-.empty-state{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;line-height:1.6}
 
 /* ── SCROLLBAR ── */
 .panel::-webkit-scrollbar{width:3px}
 .panel::-webkit-scrollbar-track{background:transparent}
 .panel::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
-#chat-area::-webkit-scrollbar{width:3px}
-#chat-area::-webkit-scrollbar-thumb{background:var(--bdr2)}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- TOP BAR -->
   <header id="top-bar">
     <div id="top-title">SOMMER <em>2026</em></div>
     <div id="top-actions">
@@ -221,20 +187,17 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
     </div>
   </header>
 
-  <!-- CONTENT PANELS -->
   <div id="content">
 
     <!-- ═══ PROGRAM ═══ -->
     <section class="panel active" id="panel-program">
       <div class="pg-ttl">Ukeplan</div>
       <div class="pg-sub">Håndball Sommer 2026</div>
-
       <div class="cnt-row">
         <div class="cnt-c"><div class="cnt-n lime">3</div><div class="cnt-l">Styrke</div></div>
         <div class="cnt-c"><div class="cnt-n ora">3</div><div class="cnt-l">Intervall</div></div>
         <div class="cnt-c"><div class="cnt-n teal">2</div><div class="cnt-l">Spenst</div></div>
       </div>
-
       <div class="week-grid">
         <div class="wg-cell hd"></div>
         <div class="wg-cell hd">Man</div><div class="wg-cell hd">Tir</div>
@@ -258,10 +221,8 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
         <div class="wg-cell"></div>
         <div class="wg-cell"><span class="wp i">Intervall</span><span class="sub-txt">2,3 el. 6</span></div>
       </div>
-
       <div class="callout"><strong>Uke 29/30:</strong> Styrke beinøkter byttes til Spenst-styrke. Overkropp fortsetter som normalt.</div>
       <div class="callout teal"><strong>RIR (Reps i Reserve):</strong> Stopp med det angitte antallet reps igjen. RIR 3–4 = moderat. Mot slutten av blokken: RIR 1–2.</div>
-
       <div class="section-hd">Intensitetssoner løping</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1rem">
         <div class="card"><div class="card-inner"><div style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ora);font-weight:700">I-4</div><div style="font-size:.82rem;margin-top:.15rem">80–90% av maks HF</div></div></div>
@@ -287,11 +248,9 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
           Fullfør og lagre økt
         </button>
       </div>
-
       <div id="session-selector">
         <div class="pg-ttl">Ny økt</div>
         <div class="pg-sub">Velg hvilken økt du skal ta</div>
-
         <div class="section-hd">Styrke</div>
         <div class="sess-cards">
           <div class="sess-card" onclick="startSession('styrke-1')">
@@ -319,7 +278,6 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
             <div class="sc-week" id="sw-4">Uke 25–28</div>
           </div>
         </div>
-
         <div class="section-hd">Spenst &amp; Agility</div>
         <div class="sess-cards">
           <div class="sess-card teal" onclick="startSession('spenst')">
@@ -342,43 +300,28 @@ body{color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Ne
     <section class="panel" id="panel-historikk">
       <div class="pg-ttl">Historikk</div>
       <div class="pg-sub">Registrerte økter</div>
+      <div id="progress-section" style="display:none">
+        <div class="section-hd" style="margin-top:0">Fremgang</div>
+        <select class="prog-select" id="prog-select" onchange="renderProgressGraph()">
+          <option value="">Velg øvelse...</option>
+        </select>
+        <div id="prog-chart"></div>
+      </div>
+      <div class="section-hd">Logg</div>
       <div id="history-list">
         <div class="hist-empty">Ingen økter registrert ennå.<br>Start en økt i «Økt»-fanen.</div>
       </div>
     </section>
 
-    <!-- ═══ PT CHAT ═══ -->
-    <section class="panel" id="panel-pt">
-      <div id="chat-area">
-        <div class="msg ai">
-          <div class="msg-bubble">Hei! Jeg er PT-en din for Sommerprogramm 2026. 🤝
+  </div>
 
-Jeg har full oversikt over programmet ditt og kan:
-• Analysere registrerte styrkeøkter
-• Gi tips om teknikk og progressjon
-• Forklare øvelser og programmer
-• Hjelpe deg planlegge uka
-
-Hva kan jeg hjelpe deg med?</div>
-          <div class="msg-time">PT</div>
-        </div>
-      </div>
-      <div class="quick-chips" id="quick-chips">
-        <button class="qchip" onclick="sendQuick('Analyser siste økt min')">📊 Analyser siste økt</button>
-        <button class="qchip" onclick="sendQuick('Hva bør jeg prioritere denne uka?')">🎯 Ukens prioritering</button>
-        <button class="qchip" onclick="sendQuick('Gi meg tips om progressjon i styrketreningen')">💡 Progressjonstips</button>
-        <button class="qchip" onclick="sendQuick('Hva er RIR og hvordan bruker jeg det?')">❓ Hva er RIR?</button>
-        <button class="qchip" onclick="sendQuick('Hvordan bør jeg varme opp til styrkeøkt?')">🔥 Oppvarming</button>
-      </div>
-      <div id="chat-input-bar">
-        <textarea id="chat-input" placeholder="Spør PT..." rows="1" onkeydown="chatKeydown(event)" oninput="autoResize(this)"></textarea>
-        <button id="send-btn" onclick="sendChat()" disabled>
-          <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
-        </button>
-      </div>
-    </section>
-
-  </div><!-- /content -->
+  <!-- REST TIMER BANNER -->
+  <div id="rest-timer">
+    <div id="rest-timer-bg"></div>
+    <div id="rest-timer-label">Pause</div>
+    <div id="rest-timer-count">0:00</div>
+    <button id="rest-timer-skip" onclick="skipRestTimer()">Skip</button>
+  </div>
 
   <!-- BOTTOM NAV -->
   <nav id="bottom-nav">
@@ -395,26 +338,8 @@ Hva kan jeg hjelpe deg med?</div>
       <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       Historikk
     </button>
-    <button class="nav-tab" data-panel="pt">
-      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      PT
-    </button>
   </nav>
 
-</div><!-- /app -->
-
-<!-- API KEY MODAL -->
-<div id="apikey-modal">
-  <div class="modal-box">
-    <div class="modal-ttl">Koble til PT</div>
-    <div class="modal-sub">
-      PT bruker Claude AI (Anthropic). Du trenger en gratis API-nøkkel.<br><br>
-      Hent nøkkel på <strong>console.anthropic.com</strong>. Nøkkelen lagres kun lokalt i nettleseren.
-    </div>
-    <input type="password" id="apikey-input" class="modal-input" placeholder="sk-ant-..." autocomplete="off" oninput="document.getElementById('apikey-save-btn').disabled=!this.value.trim()">
-    <button class="modal-btn" id="apikey-save-btn" onclick="saveApiKey()" disabled>Lagre og start</button>
-    <button class="modal-skip" onclick="closeApiKeyModal()">Ikke nå</button>
-  </div>
 </div>
 
 <!-- SETTINGS MODAL -->
@@ -423,24 +348,10 @@ Hva kan jeg hjelpe deg med?</div>
     <div class="pg-ttl" style="margin-bottom:1rem">Innstillinger</div>
     <div class="settings-row">
       <div class="settings-label">
-        API-nøkkel (Claude PT)
-        <div class="desc" id="apikey-status">Ikke satt</div>
-      </div>
-      <button class="settings-action" onclick="changeApiKey()">Endre</button>
-    </div>
-    <div class="settings-row">
-      <div class="settings-label">
         Slett all treningslogg
         <div class="desc">Fjerner alle registrerte økter</div>
       </div>
       <button class="settings-action danger" onclick="clearAllData()">Slett</button>
-    </div>
-    <div class="settings-row">
-      <div class="settings-label">
-        Slett chat-historikk
-        <div class="desc">Starter PT-samtalen på nytt</div>
-      </div>
-      <button class="settings-action danger" onclick="clearChat()">Slett</button>
     </div>
   </div>
   <button class="close-modal" onclick="closeSettings()">Lukk</button>
@@ -546,23 +457,12 @@ const SESSIONS = {
   }
 };
 
-const INTERVAL_PROTOCOLS = [
-  { no:'1', name:'45/15 × 5 × 5', desc:'45 sek arbeid – 15 sek pause · 5 drag × 5 sett · Seriepause 1 min', intensity:'I-4/I-5 (85–95%)' },
-  { no:'2', name:'3/1×2 + 2/1×4 + 60/20×6', desc:'Kombinert intervall med stigende intensitet', intensity:'I-4/I-5 (85–95%)' },
-  { no:'3', name:'4-3-2-1-1-2-3-4 Pyramide', desc:'Pausen er halvparten av arbeidstiden', intensity:'I-5 (>90%)' },
-  { no:'4', name:'30/15 × 12 × 3', desc:'30 sek arbeid – 15 sek pause · 12 drag × 3 sett · 90 sek seriepause', intensity:'I-5 (>90%)' },
-  { no:'5', name:'4/2×4 + 45/15×6', desc:'4 min arbeid/2 min pause ×4 · Rett over i 45/15×6', intensity:'I-5 (>90%)' },
-  { no:'6', name:'Langkjøring 60–75 min', desc:'Stabilt moderat tempo', intensity:'I-4 (<80%)' },
-];
-
 /* ══════════════════════════════════════════
-   APP STATE
+   STATE & UTILS
 ══════════════════════════════════════════ */
 let activeSession = null;
 let timerInterval = null;
 let timerSeconds = 0;
-let chatMessages = [];
-let apiKey = localStorage.getItem('pt_apikey') || '';
 
 function getWeekNumber(d) {
   const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -571,26 +471,9 @@ function getWeekNumber(d) {
   const yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
   return Math.ceil((((date - yearStart) / 86400000) + 1)/7);
 }
-
-function getCurrentWeek() {
-  return getWeekNumber(new Date());
-}
-
-function getLogs() {
-  return JSON.parse(localStorage.getItem('training_logs') || '[]');
-}
-
-function saveLogs(logs) {
-  localStorage.setItem('training_logs', JSON.stringify(logs));
-}
-
-function getChatHistory() {
-  return JSON.parse(localStorage.getItem('chat_history') || '[]');
-}
-
-function saveChatHistory(msgs) {
-  localStorage.setItem('chat_history', JSON.stringify(msgs.slice(-40)));
-}
+function getCurrentWeek() { return getWeekNumber(new Date()); }
+function getLogs() { return JSON.parse(localStorage.getItem('training_logs') || '[]'); }
+function saveLogs(logs) { localStorage.setItem('training_logs', JSON.stringify(logs)); }
 
 /* ══════════════════════════════════════════
    NAVIGATION
@@ -603,19 +486,10 @@ document.querySelectorAll('.nav-tab').forEach(btn => {
     btn.classList.add('active');
     document.getElementById('panel-' + panel).classList.add('active');
     if (panel === 'historikk') renderHistory();
-    if (panel === 'pt') {
-      if (!apiKey) showApiKeyModal();
-      else renderChat();
-      setTimeout(() => {
-        const ca = document.getElementById('chat-area');
-        ca.scrollTop = ca.scrollHeight;
-      }, 100);
-    }
   });
 });
 
 document.getElementById('settings-btn').addEventListener('click', () => {
-  updateSettingsDisplay();
   document.getElementById('settings-modal').classList.add('show');
 });
 
@@ -626,32 +500,19 @@ function init() {
   const wk = getCurrentWeek();
   document.getElementById('cur-week-num').textContent = wk;
 
-  // Show current week targets on session cards
-  const sess1 = SESSIONS['styrke-1'];
-  const sess2 = SESSIONS['styrke-2'];
-  const wk1 = Math.min(Math.max(wk, sess1.weeks[0]), sess1.weeks[sess1.weeks.length-1]);
-  const wk2 = Math.min(Math.max(wk, sess2.weeks[0]), sess2.weeks[sess2.weeks.length-1]);
+  const wk1 = Math.min(Math.max(wk, 27), 30);
+  const wk2 = Math.min(Math.max(wk, 25), 28);
   document.getElementById('sw-1').textContent = `Denne uka: Uke ${wk1}`;
   document.getElementById('sw-2').textContent = `Denne uka: Uke ${wk2}`;
   document.getElementById('sw-3').textContent = `Denne uka: Uke ${wk2}`;
   document.getElementById('sw-4').textContent = `Denne uka: Uke ${wk2}`;
 
-  // Restore active session
   const saved = localStorage.getItem('active_session');
   if (saved) {
     activeSession = JSON.parse(saved);
     showActiveSession();
     startTimer(activeSession.elapsed || 0);
   }
-
-  // Load chat
-  chatMessages = getChatHistory();
-  if (chatMessages.length > 0) renderChat();
-
-  // Send button enable
-  document.getElementById('chat-input').addEventListener('input', () => {
-    document.getElementById('send-btn').disabled = !document.getElementById('chat-input').value.trim();
-  });
 }
 
 /* ══════════════════════════════════════════
@@ -672,15 +533,13 @@ function startSession(sessionId) {
     exercises: sess.exercises.map(ex => ({
       name: ex.name,
       target: ex.weekReps[validWeek] || '—',
-      sets: [],
-      note: ''
+      sets: []
     }))
   };
 
   localStorage.setItem('active_session', JSON.stringify(activeSession));
   showActiveSession();
   startTimer(0);
-
   document.querySelector('[data-panel="okt"]').click();
 }
 
@@ -721,6 +580,13 @@ function getRestInfo(sessEx) {
   return { text: '60–90 sek', recommended: true };
 }
 
+function getPrevSets(sessionId, exerciseName) {
+  const prev = getLogs().find(l => l.sessionId === sessionId);
+  if (!prev) return null;
+  const ex = prev.exercises.find(e => e.name === exerciseName);
+  return (ex && ex.sets.length) ? ex.sets : null;
+}
+
 function renderExerciseList() {
   const list = document.getElementById('exercise-list');
   const sess = SESSIONS[activeSession.sessionId];
@@ -729,30 +595,32 @@ function renderExerciseList() {
     const sessEx = sess.exercises[i];
     const tagHtml = sessEx.tag === 'spenst' ? '<span class="tag tag-sp">spenst</span>' :
                     sessEx.tag === 'core' ? '<span class="tag" style="background:var(--ora-bg);color:var(--ora)">core</span>' :
-                    sessEx.tag && sessEx.tag.startsWith('supersett') ? `<span class="tag tag-ss">${sessEx.tag.replace('-', ' ').toUpperCase()}</span>` : '';
-    const setsHtml = ex.sets.map((s, si) =>
-      `<span class="set-chip">${s.weight ? s.weight + 'kg × ' : ''}${s.reps}${s.unit || ''} <button onclick="removeSet(${i},${si})">×</button></span>`
-    ).join('');
-    const isTime = ex.target && (ex.target.includes('sek') || ex.target.includes('min') || ex.target.includes('runder'));
+                    sessEx.tag && sessEx.tag.startsWith('supersett') ? `<span class="tag tag-ss">${sessEx.tag.replace('-',' ').toUpperCase()}</span>` : '';
 
+    const setsHtml = ex.sets.map((s, si) =>
+      `<span class="set-chip">${s.weight ? s.weight+'kg × ' : ''}${s.reps} <button onclick="removeSet(${i},${si})">×</button></span>`
+    ).join('');
+
+    const isTime = ex.target && (ex.target.includes('sek') || ex.target.includes('min') || ex.target.includes('runder'));
     const setsTarget = getSetsTarget(sessEx, ex.target);
     const restInfo = getRestInfo(sessEx);
     const restChip = restInfo.text
       ? `<span class="ex-detail-chip ${restInfo.recommended ? 'pur' : 'teal'}">⏱ ${restInfo.text}${restInfo.recommended ? ' (PT)' : ''}</span>`
       : '';
-    const rirChip = sessEx.rir
-      ? `<span class="ex-detail-chip">RIR ${sessEx.rir}</span>`
+    const rirChip = sessEx.rir ? `<span class="ex-detail-chip">RIR ${sessEx.rir}</span>` : '';
+
+    const prevSets = getPrevSets(activeSession.sessionId, ex.name);
+    const prevHtml = prevSets
+      ? `<div class="prev-row"><span>Sist:</span> ${prevSets.map(s => s.weight ? `${s.weight}kg×${s.reps}` : `${s.reps}`).join(' · ')}</div>`
       : '';
 
     return `<div class="ex-item">
-      <div class="ex-item-hd">
-        <div class="ex-item-name">${ex.name}${tagHtml}</div>
-      </div>
+      <div class="ex-item-hd"><div class="ex-item-name">${ex.name}${tagHtml}</div></div>
       <div class="ex-detail-row">
         <span class="ex-detail-chip lime">${setsTarget}</span>
-        ${rirChip}
-        ${restChip}
+        ${rirChip}${restChip}
       </div>
+      ${prevHtml}
       <div class="logged-sets">${setsHtml}</div>
       <div class="add-set-row">
         ${isTime ? '' : `<input class="set-input" type="number" id="w-${i}" placeholder="kg" min="0" step="2.5">`}
@@ -771,15 +639,15 @@ function addSet(exIndex, isTime) {
   if (!reps) { rEl.focus(); return; }
   const weight = wEl ? parseFloat(wEl.value) || 0 : 0;
 
-  activeSession.exercises[exIndex].sets.push({
-    weight: isTime ? 0 : weight,
-    reps: parseFloat(reps)
-  });
-
+  activeSession.exercises[exIndex].sets.push({ weight: isTime ? 0 : weight, reps: parseFloat(reps) });
   localStorage.setItem('active_session', JSON.stringify(activeSession));
   if (wEl) wEl.value = '';
   rEl.value = '';
   renderExerciseList();
+
+  const sessEx = SESSIONS[activeSession.sessionId].exercises[exIndex];
+  const secs = parseRestSeconds(getRestInfo(sessEx).text);
+  if (secs > 0) startRestTimer(secs);
 }
 
 function removeSet(exIndex, setIndex) {
@@ -791,42 +659,40 @@ function removeSet(exIndex, setIndex) {
 function endSession() {
   if (!activeSession) return;
   if (!confirm('Fullfør og lagre økt?')) return;
-
   activeSession.elapsed = timerSeconds;
   activeSession.duration = timerSeconds;
-
   stopTimer();
-
+  hideRestTimer();
   const logs = getLogs();
   logs.unshift(activeSession);
   saveLogs(logs);
-
   localStorage.removeItem('active_session');
   activeSession = null;
-
   document.getElementById('active-session').classList.remove('show');
   document.getElementById('session-selector').style.display = '';
   document.getElementById('active-badge').classList.remove('show');
-
-  renderExerciseList();
   alert('Økt lagret! 💪');
 }
 
 /* ══════════════════════════════════════════
-   TIMER
+   SESSION TIMER
 ══════════════════════════════════════════ */
 function startTimer(startFrom) {
   timerSeconds = startFrom;
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     timerSeconds++;
-    updateTimerDisplay();
+    const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
+    const s = (timerSeconds%60).toString().padStart(2,'0');
+    document.getElementById('timer').textContent = m+':'+s;
     if (timerSeconds % 30 === 0 && activeSession) {
       activeSession.elapsed = timerSeconds;
       localStorage.setItem('active_session', JSON.stringify(activeSession));
     }
   }, 1000);
-  updateTimerDisplay();
+  const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
+  const s = (timerSeconds%60).toString().padStart(2,'0');
+  document.getElementById('timer').textContent = m+':'+s;
 }
 
 function stopTimer() {
@@ -834,16 +700,73 @@ function stopTimer() {
   timerInterval = null;
 }
 
-function updateTimerDisplay() {
-  const m = Math.floor(timerSeconds / 60).toString().padStart(2, '0');
-  const s = (timerSeconds % 60).toString().padStart(2, '0');
-  document.getElementById('timer').textContent = m + ':' + s;
+/* ══════════════════════════════════════════
+   REST TIMER
+══════════════════════════════════════════ */
+let restInterval = null;
+let restTotal = 0;
+let restRemaining = 0;
+
+function parseRestSeconds(text) {
+  if (!text || text.includes('→') || text.includes('Hvil') || text.includes('Sirkel')) return 0;
+  const minM = text.match(/(\d+)(?:–(\d+))?\s*min/);
+  if (minM) {
+    const lo = parseInt(minM[1]), hi = minM[2] ? parseInt(minM[2]) : lo;
+    return Math.round((lo + hi) / 2) * 60;
+  }
+  const rangeM = text.match(/(\d+)–(\d+)\s*sek/);
+  if (rangeM) return Math.round((parseInt(rangeM[1]) + parseInt(rangeM[2])) / 2);
+  const sekM = text.match(/~?(\d+)\s*sek/);
+  if (sekM) return parseInt(sekM[1]);
+  return 0;
 }
+
+function startRestTimer(seconds) {
+  if (restInterval) clearInterval(restInterval);
+  restTotal = seconds;
+  restRemaining = seconds;
+  const bg = document.getElementById('rest-timer-bg');
+  bg.style.transition = 'none';
+  bg.style.width = '0%';
+  document.getElementById('rest-timer').classList.add('show');
+  updateRestDisplay();
+  restInterval = setInterval(() => {
+    restRemaining--;
+    updateRestDisplay();
+    if (restRemaining <= 0) {
+      clearInterval(restInterval);
+      restInterval = null;
+      document.getElementById('rest-timer-count').textContent = 'Klar! 💪';
+      bg.style.transition = 'none';
+      bg.style.width = '100%';
+      if (navigator.vibrate) navigator.vibrate([150, 80, 150]);
+      setTimeout(hideRestTimer, 2500);
+    }
+  }, 1000);
+}
+
+function updateRestDisplay() {
+  const m = Math.floor(restRemaining / 60);
+  const s = (restRemaining % 60).toString().padStart(2, '0');
+  document.getElementById('rest-timer-count').textContent = `${m}:${s}`;
+  const pct = ((restTotal - restRemaining) / restTotal) * 100;
+  const bg = document.getElementById('rest-timer-bg');
+  bg.style.transition = 'width 1s linear';
+  bg.style.width = pct + '%';
+}
+
+function hideRestTimer() {
+  if (restInterval) { clearInterval(restInterval); restInterval = null; }
+  document.getElementById('rest-timer').classList.remove('show');
+}
+
+function skipRestTimer() { hideRestTimer(); }
 
 /* ══════════════════════════════════════════
    HISTORY
 ══════════════════════════════════════════ */
 function renderHistory() {
+  updateProgressSection();
   const logs = getLogs();
   const list = document.getElementById('history-list');
 
@@ -854,20 +777,17 @@ function renderHistory() {
 
   list.innerHTML = logs.map((log, i) => {
     const d = new Date(log.date);
-    const dateStr = d.toLocaleDateString('no-NO', { weekday:'long', day:'numeric', month:'long' });
+    const dateStr = d.toLocaleDateString('no-NO', {weekday:'long', day:'numeric', month:'long'});
     const totalSets = log.exercises.reduce((a, e) => a + e.sets.length, 0);
     const totalVol = log.exercises.reduce((a, e) => a + e.sets.reduce((b, s) => b + (s.weight * s.reps), 0), 0);
     const durMin = log.duration ? Math.floor(log.duration / 60) : null;
 
-    const exHtml = log.exercises.filter(e => e.sets.length > 0).map(e => {
-      const chips = e.sets.map(s =>
-        `<span class="h-chip">${s.weight ? s.weight + 'kg×' : ''}${s.reps}</span>`
-      ).join('');
-      return `<div class="hist-ex"><div class="hist-ex-name">${e.name}</div><div class="hist-sets-list">${chips}</div></div>`;
-    }).join('');
-
-    const aiHtml = log.aiAnalysis ?
-      `<div class="hist-ai-analysis"><div class="ai-label">PT-analyse</div>${log.aiAnalysis}</div>` : '';
+    const exHtml = log.exercises.filter(e => e.sets.length > 0).map(e =>
+      `<div class="hist-ex">
+        <div class="hist-ex-name">${e.name}</div>
+        <div class="hist-sets-list">${e.sets.map(s => `<span class="h-chip">${s.weight ? s.weight+'kg×' : ''}${s.reps}</span>`).join('')}</div>
+      </div>`
+    ).join('');
 
     return `<div class="hist-session">
       <div class="hist-hd" onclick="toggleHistItem(${i})">
@@ -880,273 +800,99 @@ function renderHistory() {
           <div class="hist-sets-count">${totalSets} sett${durMin ? ' · ' + durMin + ' min' : ''}</div>
         </div>
       </div>
-      <div class="hist-body" id="hist-body-${i}">
-        ${exHtml}
-        ${aiHtml}
-        ${!log.aiAnalysis ? `<button onclick="analyzeSession(${i})" style="width:100%;background:var(--lime-bg);border:1px solid var(--lime);color:var(--lime);padding:.6rem;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;border-radius:3px;cursor:pointer;margin-top:.75rem">🤖 Analyser med PT</button>` : ''}
-      </div>
+      <div class="hist-body" id="hist-body-${i}">${exHtml}</div>
     </div>`;
   }).join('');
 }
 
 function toggleHistItem(i) {
-  const body = document.getElementById(`hist-body-${i}`);
-  body.classList.toggle('open');
-}
-
-async function analyzeSession(i) {
-  if (!apiKey) { showApiKeyModal(); return; }
-  const logs = getLogs();
-  const log = logs[i];
-  const btn = document.querySelector(`#hist-body-${i} button`);
-  if (btn) { btn.textContent = '⏳ Analyserer...'; btn.disabled = true; }
-
-  const sessText = buildSessionSummary(log);
-  const prompt = `Analyser denne treningsøkten og gi konkret, nyttig tilbakemelding på 3-5 setninger. Vær spesifikk.\n\n${sessText}`;
-
-  try {
-    const result = await callClaude([{ role: 'user', content: prompt }], false);
-    logs[i].aiAnalysis = result;
-    saveLogs(logs);
-    renderHistory();
-    toggleHistItem(i);
-  } catch(e) {
-    if (btn) { btn.textContent = '⚠️ Feil – prøv igjen'; btn.disabled = false; }
-  }
-}
-
-function buildSessionSummary(log) {
-  const d = new Date(log.date);
-  const dateStr = d.toLocaleDateString('no-NO');
-  const lines = [`Økt: ${log.sessionName}`, `Dato: ${dateStr}`, `Uke: ${log.week}`];
-
-  log.exercises.filter(e => e.sets.length > 0).forEach(e => {
-    const setsStr = e.sets.map(s => s.weight ? `${s.weight}kg×${s.reps}` : `${s.reps}`).join(', ');
-    lines.push(`${e.name} (mål: ${e.target}): ${setsStr}`);
-  });
-
-  if (log.duration) lines.push(`Varighet: ${Math.floor(log.duration/60)} min`);
-  return lines.join('\n');
+  document.getElementById(`hist-body-${i}`).classList.toggle('open');
 }
 
 /* ══════════════════════════════════════════
-   PT CHAT
+   PROGRESS GRAPH
 ══════════════════════════════════════════ */
-const SYSTEM_PROMPT = `Du er en erfaren personlig trener for en håndballspiller som følger Sommerprogramm 2026. Du heter "PT" og kommuniserer på norsk.
-
-TRENINGSPROGRAM OVERSIKT:
-- 3 styrkeøkter/uke, 3 intervaller/uke, 2 spenst/agility-økter/uke
-- Styrke Økt 1 (Bein/Skuldre, uke 27-30): Progressiv overload, RIR 3-4. Knebøy: 4x6→4x5→4x4→5x3
-- Styrke Økt 2 (Overkropp, uke 25-28): Benk 4x6→4x5→4x4→4x3, pull/push-balanse
-- Styrke Økt 3 (Bein/Mage, uke 25-28): Mer volum, trapbar 4x8→6→4, explosivt innslag
-- Styrke Økt 4 (Overkropp II, uke 25-28): Push-press, variasjon fra økt 2
-- Uke 29/30: Beinøkter byttes til Spenst-styrke
-- Spenst: Trappehopp (samla bein) + 4 av 6 agility-øvelser
-- Utholdenhet: 6 protokoller (I-4/I-5), 45/15-intervaller, pyramider, langkjøring
-- RIR = Reps i Reserve (2-3 RIR start, 1-2 mot slutten)
-- I-4 = 80-90% maks HF, I-5 = >90% maks HF
-
-DINE OPPGAVER:
-1. Analyser registrerte øktdata og gi konkret tilbakemelding
-2. Svar på spørsmål om øvelser, teknikk, progressjon og restitusjon
-3. Gi spesifikke råd basert på brukerens data
-4. Varsle ved stagnasjon eller feil belastning
-5. Hjelp med ukesplanlegging
-
-STIL: Vær konkret og kortfattet. Maks 3-5 setninger som standard svar. Bruk talldata når tilgjengelig. Ingen generiske råd – bruk programmets faktiske innhold.`;
-
-function buildContextMessage() {
-  const logs = getLogs().slice(0, 5);
-  if (!logs.length) return '';
-  const summaries = logs.map(l => buildSessionSummary(l));
-  return `\n\n[SISTE TRENINGSØKTER]\n${summaries.join('\n---\n')}`;
-}
-
-async function sendChat() {
-  const input = document.getElementById('chat-input');
-  const text = input.value.trim();
-  if (!text) return;
-  if (!apiKey) { showApiKeyModal(); return; }
-
-  input.value = '';
-  input.style.height = '';
-  document.getElementById('send-btn').disabled = true;
-
-  chatMessages.push({ role: 'user', content: text });
-  addMessageBubble('user', text);
-
-  const typingEl = addTypingIndicator();
-
-  const context = buildContextMessage();
-  const msgs = chatMessages.map((m, i) => {
-    if (i === 0 && m.role === 'user' && context) {
-      return { ...m, content: m.content + context };
-    }
-    return m;
-  });
-
-  try {
-    let aiText = '';
-    const aiEl = document.createElement('div');
-    aiEl.className = 'msg ai';
-    aiEl.innerHTML = '<div class="msg-bubble"></div><div class="msg-time">PT</div>';
-
-    typingEl.remove();
-    document.getElementById('chat-area').appendChild(aiEl);
-    scrollChat();
-
-    await callClaude(msgs, true, (delta) => {
-      aiText += delta;
-      aiEl.querySelector('.msg-bubble').textContent = aiText;
-      scrollChat();
-    });
-
-    chatMessages.push({ role: 'assistant', content: aiText });
-    saveChatHistory(chatMessages);
-  } catch(e) {
-    typingEl.remove();
-    addMessageBubble('ai', '⚠️ Beklager, noe gikk galt. Sjekk API-nøkkelen i innstillinger og prøv igjen.');
-  }
-
-  document.getElementById('send-btn').disabled = false;
-}
-
-function sendQuick(text) {
-  document.getElementById('chat-input').value = text;
-  document.getElementById('send-btn').disabled = false;
-  sendChat();
-}
-
-function addMessageBubble(role, text) {
-  const el = document.createElement('div');
-  el.className = `msg ${role}`;
-  el.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${role === 'user' ? 'Deg' : 'PT'}</div>`;
-  document.getElementById('chat-area').appendChild(el);
-  scrollChat();
-}
-
-function addTypingIndicator() {
-  const el = document.createElement('div');
-  el.className = 'msg ai';
-  el.innerHTML = '<div class="msg-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
-  document.getElementById('chat-area').appendChild(el);
-  scrollChat();
-  return el;
-}
-
-function scrollChat() {
-  const ca = document.getElementById('chat-area');
-  ca.scrollTop = ca.scrollHeight;
-}
-
-function renderChat() {
-  if (!chatMessages.length) return;
-  const area = document.getElementById('chat-area');
-  const existing = area.querySelectorAll('.msg:not(:first-child)');
-  existing.forEach(e => e.remove());
-
-  chatMessages.forEach(m => {
-    const el = document.createElement('div');
-    el.className = `msg ${m.role === 'user' ? 'user' : 'ai'}`;
-    el.innerHTML = `<div class="msg-bubble">${m.content}</div><div class="msg-time">${m.role === 'user' ? 'Deg' : 'PT'}</div>`;
-    area.appendChild(el);
-  });
-  scrollChat();
-}
-
-/* ══════════════════════════════════════════
-   CLAUDE API
-══════════════════════════════════════════ */
-async function callClaude(messages, stream, onDelta) {
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
-      stream: stream,
-      system: SYSTEM_PROMPT,
-      messages
-    })
-  });
-
-  if (!resp.ok) {
-    const err = await resp.json();
-    throw new Error(err.error?.message || 'API error');
-  }
-
-  if (!stream) {
-    const data = await resp.json();
-    return data.content[0].text;
-  }
-
-  const reader = resp.body.getReader();
-  const decoder = new TextDecoder();
-  let buf = '';
-
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buf += decoder.decode(value, { stream: true });
-    const lines = buf.split('\n');
-    buf = lines.pop();
-    for (const line of lines) {
-      if (line.startsWith('data: ')) {
-        const data = line.slice(6).trim();
-        if (data === '[DONE]') return;
-        try {
-          const parsed = JSON.parse(data);
-          if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-            onDelta(parsed.delta.text);
-          }
-        } catch {}
+function getChartableExercises() {
+  const counts = {};
+  for (const log of getLogs()) {
+    for (const ex of log.exercises) {
+      if (ex.sets.some(s => s.weight > 0)) {
+        counts[ex.name] = (counts[ex.name] || 0) + 1;
       }
     }
   }
+  return Object.entries(counts).filter(([,c]) => c >= 2).map(([n]) => n).sort();
+}
+
+function updateProgressSection() {
+  const exercises = getChartableExercises();
+  const section = document.getElementById('progress-section');
+  if (!exercises.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  const sel = document.getElementById('prog-select');
+  const current = sel.value;
+  sel.innerHTML = '<option value="">Velg øvelse...</option>' +
+    exercises.map(n => `<option value="${n}"${n === current ? ' selected' : ''}>${n}</option>`).join('');
+
+  if (current && exercises.includes(current)) renderProgressGraph();
+  else document.getElementById('prog-chart').innerHTML = '';
+}
+
+function renderProgressGraph() {
+  const name = document.getElementById('prog-select').value;
+  const container = document.getElementById('prog-chart');
+  if (!name) { container.innerHTML = ''; return; }
+
+  const data = getLogs().slice().reverse()
+    .map(log => {
+      const ex = log.exercises.find(e => e.name === name);
+      if (!ex || !ex.sets.length) return null;
+      const maxW = Math.max(...ex.sets.map(s => s.weight || 0));
+      if (!maxW) return null;
+      return { maxW, date: new Date(log.date) };
+    })
+    .filter(Boolean);
+
+  if (data.length < 2) {
+    container.innerHTML = '<div class="prog-empty">Trenger minst 2 logger med vekt.</div>';
+    return;
+  }
+
+  const W = 320, H = 120, PL = 38, PB = 22, PT = 14;
+  const cW = W - PL, cH = H - PB - PT;
+  const maxVal = Math.max(...data.map(d => d.maxW));
+  const minVal = Math.min(...data.map(d => d.maxW));
+  const range = maxVal - minVal || 1;
+  const bw = Math.max(6, Math.floor(cW / data.length) - 3);
+  const step = cW / data.length;
+
+  const gridLines = [minVal, Math.round((minVal+maxVal)/2), maxVal].map(v => {
+    const y = (PT + cH - ((v - minVal) / range) * cH * 0.8 - cH * 0.1).toFixed(1);
+    return `<line x1="${PL}" y1="${y}" x2="${W}" y2="${y}" stroke="var(--bdr)" stroke-width="1"/>
+            <text x="${PL-4}" y="${y}" text-anchor="end" font-size="9" fill="var(--muted)" dominant-baseline="middle">${v}kg</text>`;
+  }).join('');
+
+  const bars = data.map((d, i) => {
+    const bh = ((d.maxW - minVal) / range) * cH * 0.8 + cH * 0.1;
+    const x = (PL + i * step + (step - bw) / 2).toFixed(1);
+    const y = (PT + cH - bh).toFixed(1);
+    const lbl = `${d.date.getDate()}/${d.date.getMonth()+1}`;
+    return `<rect x="${x}" y="${y}" width="${bw}" height="${bh.toFixed(1)}" fill="var(--lime)" rx="2" opacity="0.85"/>
+            <text x="${(parseFloat(x)+bw/2).toFixed(1)}" y="${H-5}" text-anchor="middle" font-size="9" fill="var(--muted)">${lbl}</text>
+            <text x="${(parseFloat(x)+bw/2).toFixed(1)}" y="${(parseFloat(y)-3).toFixed(1)}" text-anchor="middle" font-size="9" fill="var(--lime)">${d.maxW}</text>`;
+  }).join('');
+
+  container.innerHTML = `<div class="prog-chart-wrap">
+    <svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;display:block;overflow:visible">
+      ${gridLines}${bars}
+    </svg>
+  </div>`;
 }
 
 /* ══════════════════════════════════════════
-   API KEY & SETTINGS
+   SETTINGS
 ══════════════════════════════════════════ */
-function showApiKeyModal() {
-  document.getElementById('apikey-modal').classList.add('show');
-  setTimeout(() => document.getElementById('apikey-input').focus(), 100);
-}
-
-function closeApiKeyModal() {
-  document.getElementById('apikey-modal').classList.remove('show');
-}
-
-function saveApiKey() {
-  const k = document.getElementById('apikey-input').value.trim();
-  if (!k) return;
-  apiKey = k;
-  localStorage.setItem('pt_apikey', k);
-  closeApiKeyModal();
-  document.getElementById('apikey-input').value = '';
-}
-
-function changeApiKey() {
-  closeSettings();
-  document.getElementById('apikey-modal').classList.add('show');
-}
-
-function updateSettingsDisplay() {
-  const el = document.getElementById('apikey-status');
-  if (apiKey) {
-    el.textContent = apiKey.slice(0,8) + '••••••••';
-    el.style.color = 'var(--lime)';
-  } else {
-    el.textContent = 'Ikke satt';
-    el.style.color = 'var(--muted)';
-  }
-}
-
 function closeSettings() {
   document.getElementById('settings-modal').classList.remove('show');
 }
@@ -1157,48 +903,13 @@ function clearAllData() {
   localStorage.removeItem('active_session');
   activeSession = null;
   stopTimer();
+  hideRestTimer();
   document.getElementById('active-session').classList.remove('show');
   document.getElementById('session-selector').style.display = '';
   document.getElementById('active-badge').classList.remove('show');
   alert('Treningslogg slettet.');
   closeSettings();
 }
-
-function clearChat() {
-  if (!confirm('Slette chat-historikk med PT?')) return;
-  chatMessages = [];
-  saveChatHistory([]);
-  const area = document.getElementById('chat-area');
-  const extra = area.querySelectorAll('.msg:not(:first-child)');
-  extra.forEach(e => e.remove());
-  alert('Chat slettet.');
-  closeSettings();
-}
-
-/* ══════════════════════════════════════════
-   UTILS
-══════════════════════════════════════════ */
-function chatKeydown(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendChat();
-  }
-}
-
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-  document.getElementById('send-btn').disabled = !el.value.trim();
-}
-
-document.getElementById('apikey-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter') saveApiKey();
-});
-
-// Close modals on backdrop click
-document.getElementById('apikey-modal').addEventListener('click', e => {
-  if (e.target === document.getElementById('apikey-modal')) closeApiKeyModal();
-});
 
 init();
 </script>
